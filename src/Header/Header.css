@@ -1,0 +1,21 @@
+.header {
+    height: 99px;
+    background-color: hsl(214, 26%, 10%);
+    color: white;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.header__logo {
+    object-fit: contain;
+    width: 99px;
+    margin: 0 20px;
+    margin-top: 18px;
+}
+
