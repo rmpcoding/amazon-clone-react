@@ -1,10 +1,12 @@
 import React from 'react';
 // import NavBar from '../NavBar/NavBar'
+import SearchIcon from '@material-ui/core/SvgIcon'
 import './Header.css'
 
 const Header = () => {
     return (
         <div className="header">
+        <SearchIcon className="header__searchIcon" />
             <img
                 className="header__logo"
                 src="http://pngimg.com/uploads/amazon/amazon_PNG11.png"
