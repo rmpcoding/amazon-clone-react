@@ -1,0 +1,16 @@
+.home__container {
+    z-index: -2;
+}
+
+.home__row {
+    z-index: 5;
+}
+
+.home__image {
+    object-fit: contain;
+    width: 100%;
+    mask-image: linear-gradient(to bottom,  hsl(180, 7%, 92%), transparent);   
+    z-index: -10;
+    margin-bottom: -150px;
+}
+
