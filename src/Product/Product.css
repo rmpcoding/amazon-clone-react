@@ -13,6 +13,13 @@
 }
 
 .product__info {
+    width: 100%;
+    text-align: left;
+    height: 100px;
+    margin-bottom: .5rem;
+}
+
+.product__info {
     height: 100px;
     margin-bottom: 1rem;
 }
@@ -30,6 +37,9 @@
 
 .product > button {
     background-color: hsl(36, 100%, 50%);
+    border: 1px solid hsl(36, 0%, 100%);
+    margin-top: .15rem;
+    font-family: inherit;
 }
 
 .product > button:focus {

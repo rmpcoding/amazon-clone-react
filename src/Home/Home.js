@@ -15,15 +15,15 @@ const Home = () => {
             </div>
 
             <div className="home__row">
-                <div className="home__product"></div>
+                <Product title="Cracking The Coding Interview" price={29.99} image="https://images-na.ssl-images-amazon.com/images/I/410hiaPGyCL._SX348_BO1,204,203,200_.jpg" rating={5} />
                 <Product />
             </div>
             <div className="home__row">
-                <div className="home__product"></div>
+                <Product />
+                <Product />
                 <Product />
             </div>
             <div className="home__row">
-                <div className="home__product"></div>
                 <Product />
             </div>
         </div>
