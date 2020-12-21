@@ -1,5 +1,4 @@
 import React from 'react';
-// import NavBar from '../NavBar/NavBar'
 import SearchIcon from '@material-ui/icons/Search';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import { Link } from 'react-router-dom';
