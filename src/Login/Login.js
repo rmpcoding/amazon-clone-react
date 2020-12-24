@@ -32,7 +32,7 @@ const Login = () => {
             if (user) {
                 history.push('/');
             }
-            console.log(user);
+            console.log(user); 
         } catch (e) {
             alert('Something went wrong');
             console.log(e.message);
