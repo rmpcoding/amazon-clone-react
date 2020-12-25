@@ -7,29 +7,29 @@ import Checkout from './Checkout/Checkout';
 import Login from './Login/Login';
 import './App.css';
 import { useStateValue } from './StateProvider/StateProvider';
+import Payment from './Payment/Payment';
 
 function App() {
-    const [{  }, dispatch] = useStateValue();
-
+    const [{}, dispatch] = useStateValue();
 
     useEffect(() => {
         auth.onAuthStateChanged((authUser) => {
-            console.log('THE USER IS -->', authUser)
-            console.log(authUser)
+            console.log('THE USER IS -->', authUser);
+            console.log(authUser);
             if (authUser) {
-                // user is logged in 
+                // user is logged in
                 dispatch({
                     type: 'SET_USER',
-                    user: authUser
-                })
+                    user: authUser,
+                });
             } else {
                 // user is logged out
                 dispatch({
                     type: 'SET_USER',
-                    user: null
-                })
+                    user: null,
+                });
             }
-        })
+        });
     }, []);
 
     return (
@@ -42,6 +42,10 @@ function App() {
                     <Route path="/checkout">
                         <Header />
                         <Checkout />
+                    </Route>
+                    <Route path="/payment">
+                        <Header />
+                        <Payment />
                     </Route>
                     <Route path="/">
                         <Header />
