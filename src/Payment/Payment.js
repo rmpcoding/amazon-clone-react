@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { Link, useHistory } from 'react-router-dom';
 import CheckoutProduct from '../CheckoutProduct/CheckoutProduct';
 import { getBasketTotal } from '../Reducer';
 import CurrencyFormat from 'react-currency-format';
@@ -15,7 +16,8 @@ const Payment = () => {
     const [error, setError] = useState(null);
     const [disabled, setDisabled] = useState(true);
     const [clientSecret, setClientSecret] = useState(true);
-
+    
+    const history = useHistory();
     const stripe = useStripe();
     const elements = useElements();
 
@@ -23,19 +25,39 @@ const Payment = () => {
         // generate the special stripe secret which allows us to charge a customer
         // when basket changes, tell stripe to generate new secret
         const getClientSecret = async () => {
-            // const response = await axios;
+            const response = await axios({
+                method: 'POST',
+                // Stripe expects the total in a currencies subunits
+                url: `/payments/create?total=${getBasketTotal(basket) * 100}`
+            });
+            setClientSecret(response.data.clientSecret)
         }
 
         getClientSecret();
     }, [basket])
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         // Add Stripe functionality here
         event.preventDefault();
         console.log('payment processing');
         setProcessing(true);
 
-        // const payload = await striper
+        try {
+            const payload = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: elements.getElement(CardElement)
+                }
+            })
+            if (payload.paymentIntent) {
+                setSucceeded(true);
+                setError(false);
+                setProcessing(false);
+
+                history.replace('/orders')
+            }
+        } catch (err) {
+            return new Error('Error! ' + err)
+        }
 
     };
 
