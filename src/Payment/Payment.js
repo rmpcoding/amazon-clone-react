@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CheckoutProduct from '../CheckoutProduct/CheckoutProduct';
+import { getBasketTotal } from '../Reducer';
+import CurrencyFormat from 'react-currency-format';
 import { useStateValue } from '../StateProvider/StateProvider';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import './Payment.css';
@@ -8,22 +10,25 @@ import './Payment.css';
 const Payment = () => {
     const [{ basket, user }, dispatch] = useStateValue();
 
-    const [ error, setError ] = useState(null);
-    const [ disabled, setDisabled ] = useState(true);
+    const [error, setError] = useState(null);
+    const [disabled, setDisabled] = useState(true);
 
     const stripe = useStripe();
     const elements = useElements();
 
-    const handleSubmit = e => {
-        console.log('hi, submit me')
+    const handleSubmit = (event) => {
+        console.log('hi, submit me');
         // Add Stripe functionality here
-    }
+    };
 
-    const handleChange = e => {
-        console.log('hi, you changed me')
+    const handleChange = (event) => {
+        console.log('hi, you changed me');
         // Listen for changes in the CardElement
         // Display any errors as the customer types their card details
-    }
+
+        setDisabled(event.empty);
+        setError(event.error ? event.error.message : '');
+    };
 
     return (
         <div className="payment">
@@ -67,6 +72,27 @@ const Payment = () => {
 
                         <form onSubmit={handleSubmit} action="">
                             <CardElement onChange={handleChange} />
+                            <div className="payment__priceContainer">
+                                <CurrencyFormat
+                                    renderText={(value) => (
+                                        <>
+                                            <p>
+                                                Subtotal ({basket.length}{' '}
+                                                items):
+                                                <strong>{value}</strong>
+                                            </p>
+                                            <small className="subtotal__gift">
+                                                <input type="checkbox" />
+                                            </small>
+                                        </>
+                                    )}
+                                    decimalScale={2}
+                                    value={getBasketTotal(basket)}
+                                    displayType={'text'}
+                                    thousandSeparator={true}
+                                    prefix={'$'}
+                                />
+                            </div>
                         </form>
                     </div>
                 </div>
