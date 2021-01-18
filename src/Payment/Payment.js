@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import CheckoutProduct from '../CheckoutProduct/CheckoutProduct';
 import { getBasketTotal } from '../Reducer';
@@ -10,21 +10,40 @@ import './Payment.css';
 const Payment = () => {
     const [{ basket, user }, dispatch] = useStateValue();
 
+    const [succeeded, setSucceeded] = useState(false);
+    const [processing, setProcessing] = useState('');
     const [error, setError] = useState(null);
     const [disabled, setDisabled] = useState(true);
+    const [clientSecret, setClientSecret] = useState(true);
 
     const stripe = useStripe();
     const elements = useElements();
 
+    useEffect(() => {
+        // generate the special stripe secret which allows us to charge a customer
+        // when basket changes, tell stripe to generate new secret
+        const getClientSecret = async () => {
+            // const response = await axios;
+        }
+
+        getClientSecret();
+    }, [basket])
+
     const handleSubmit = (event) => {
-        console.log('hi, submit me');
         // Add Stripe functionality here
+        event.preventDefault();
+        console.log('payment processing');
+        setProcessing(true);
+
+        // const payload = await striper
+
     };
 
-    const handleChange = (event) => {
+    const handleChange = async (event) => {
         console.log('hi, you changed me');
         // Listen for changes in the CardElement
         // Display any errors as the customer types their card details
+
 
         setDisabled(event.empty);
         setError(event.error ? event.error.message : '');
@@ -92,7 +111,21 @@ const Payment = () => {
                                     thousandSeparator={true}
                                     prefix={'$'}
                                 />
+                                <button
+                                    disabled={
+                                        processing || disabled || succeeded
+                                    }
+                                >
+                                    <span>
+                                        {processing ? (
+                                            <p>Processing</p>
+                                        ) : (
+                                            'Buy Now'
+                                        )}
+                                    </span>
+                                </button>
                             </div>
+                            {error && <div>{error}</div>}
                         </form>
                     </div>
                 </div>
