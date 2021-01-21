@@ -7,6 +7,8 @@ import './Checkout.css';
 const Checkout = () => {
     const [{ basket, user }, dispatch] = useStateValue();
 
+    let newKey = 0;
+
     return (
         <div className="checkout">
             <div className="checkout__left">
@@ -21,7 +23,7 @@ const Checkout = () => {
                     <h2 className="checkout__title">Your shopping basket</h2>
                     {basket.map((item) => (
                         <CheckoutProduct
-                            key={item.id}
+                            key={newKey++}
                             id={item.id}
                             title={item.title}
                             image={item.image}
