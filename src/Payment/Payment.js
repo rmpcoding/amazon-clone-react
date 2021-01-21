@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../Axios/Axios';
 import { Link, useHistory } from 'react-router-dom';
 import CheckoutProduct from '../CheckoutProduct/CheckoutProduct';
 import { getBasketTotal } from '../Reducer';
@@ -16,7 +16,7 @@ const Payment = () => {
     const [error, setError] = useState(null);
     const [disabled, setDisabled] = useState(true);
     const [clientSecret, setClientSecret] = useState(true);
-    
+
     const history = useHistory();
     const stripe = useStripe();
     const elements = useElements();
@@ -26,15 +26,18 @@ const Payment = () => {
         // when basket changes, tell stripe to generate new secret
         const getClientSecret = async () => {
             const response = await axios({
-                method: 'POST',
-                // Stripe expects the total in a currencies subunits
-                url: `/payments/create?total=${getBasketTotal(basket) * 100}`
+                method: 'post',
+                // Stripe expects the total in currencies' subunits
+                url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
             });
-            setClientSecret(response.data.clientSecret)
-        }
+            console.log(response);
+            return setClientSecret(response.data.clientSecret);
+        };
 
         getClientSecret();
-    }, [basket])
+    }, [basket]);
+
+    console.log('THE SECRET IS >>>> ', clientSecret); //7:08:42
 
     const handleSubmit = async (event) => {
         // Add Stripe functionality here
@@ -42,30 +45,30 @@ const Payment = () => {
         console.log('payment processing');
         setProcessing(true);
 
-        try {
-            const payload = await stripe.confirmCardPayment(clientSecret, {
+        const payload = await stripe
+            .confirmCardPayment(clientSecret, {
                 payment_method: {
-                    card: elements.getElement(CardElement)
-                }
+                    card: elements.getElement(CardElement),
+                },
             })
-            if (payload.paymentIntent) {
+            .then(({ paymentIntent }) => {
+                // paymentIntent = payment confirmation
+                console.log(paymentIntent);
+
                 setSucceeded(true);
                 setError(false);
                 setProcessing(false);
 
-                history.replace('/orders')
-            }
-        } catch (err) {
-            return new Error('Error! ' + err)
-        }
+                history.replace('/orders');
+            });
 
+        console.log(payload);
     };
 
     const handleChange = async (event) => {
         console.log('hi, you changed me');
         // Listen for changes in the CardElement
         // Display any errors as the customer types their card details
-
 
         setDisabled(event.empty);
         setError(event.error ? event.error.message : '');
