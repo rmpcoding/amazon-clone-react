@@ -6,6 +6,7 @@ import { getBasketTotal } from '../Reducer';
 import CurrencyFormat from 'react-currency-format';
 import { useStateValue } from '../StateProvider/StateProvider';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { db } from '../firebase';
 import './Payment.css';
 
 const Payment = () => {
@@ -54,6 +55,17 @@ const Payment = () => {
             .then(({ paymentIntent }) => {
                 // paymentIntent = payment confirmation
                 console.log(paymentIntent);
+
+                db
+                .collection('users')
+                .doc(user?.uid)
+                .collection('orders')
+                .doc(paymentIntent.id)
+                .set({
+                    basket: basket,
+                    amount: paymentIntent.amount,
+                    created: paymentIntent.created
+                })
 
                 setSucceeded(true);
                 setError(false);
