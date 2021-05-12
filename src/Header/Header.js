@@ -24,6 +24,10 @@ const Header = () => {
                     alt="Amazon logo"
                 />
             </Link>
+            <div className="header__search--mobile">
+                <input className="header__searchInput" type="text"></input>
+                <SearchIcon className="header__searchIcon" />
+            </div>
             <div className="header__search">
                 <input className="header__searchInput" type="text"></input>
                 <SearchIcon className="header__searchIcon" />

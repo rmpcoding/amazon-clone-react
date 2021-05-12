@@ -19,6 +19,10 @@
     margin-top: 18px;
 }
 
+.header__search--mobile {
+    display: none;
+}
+
 .header__search {
     display: flex;
     flex: 1;
@@ -92,4 +96,18 @@ a:visited {
     .header {
         width: 130%;
     }
+
+    .header__logo {
+        display: none;
+    }
+
+    .header__search {
+        display: none;
+    }
+
+    .header__search--mobile {
+        display: flex;
+        
+    }
+
   }
