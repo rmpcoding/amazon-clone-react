@@ -1,5 +1,6 @@
 import React from 'react';
 import Product from '../Product/Product';
+import { motion } from 'framer-motion';
 import './Home.css';
 import '../Product/Product';
 
@@ -14,7 +15,7 @@ const Home = () => {
                 />
             </div>
 
-            <div className="home__row">
+            <div className="home__row home__row--top">
                 <Product
                     id="67e283b1-b074-41a4-b71a-628febbcce27"
                     // key="67e283b1-b074-41a4-b71a-628febbcce27"
